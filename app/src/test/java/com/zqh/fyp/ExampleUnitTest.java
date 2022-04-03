@@ -4,6 +4,9 @@ import com.zqh.fyp.Util.DB.DBUtil;
 import com.zqh.fyp.Util.DB.UsersInfo;
 import org.junit.Test;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import static org.junit.Assert.*;
 
 /**
@@ -19,6 +22,11 @@ public class ExampleUnitTest {
 
     @Test
     public void DB() {
-        DBUtil.insertUserInfo("test2","123");
+        DBUtil.insertUserInfo("test2", "123");
+    }
+
+    @Test
+    public void net() {
+
     }
 }

@@ -1,6 +1,8 @@
 package com.zqh.fyp.Util.DB;
 
 
+import com.zqh.fyp.Util.Net.NetUtil;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -8,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class DBUtil {
-    private static Connection con;
+    private static Connection con=null;
 
     public static void init() {
         String URL = "jdbc:mysql://101.132.139.104:3306/androidsInfo?user=root&password=stzqh!520";
@@ -25,6 +27,10 @@ public class DBUtil {
     }
 
     public static Connection getCon() {
+        if (!NetUtil.isConnectInterNet()) {
+            con=null;
+            return con;
+        };
         if (con == null) init();
         return con;
     }
