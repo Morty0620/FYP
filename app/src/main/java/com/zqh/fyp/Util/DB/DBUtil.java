@@ -17,14 +17,11 @@ public class DBUtil {
             Class.forName("com.mysql.jdbc.Driver");
             // 2.获得数据库链接
             con = DriverManager.getConnection(URL);
+            return;
+        } catch (Exception ignored) {
 
-        } catch (ClassNotFoundException e) {
-            System.out.println("------------------");
-            e.printStackTrace();
-        } catch (SQLException e) {
-            System.out.println("==================");
-            e.printStackTrace();
         }
+        con = null;
     }
 
     public static Connection getCon() {
@@ -79,21 +76,35 @@ public class DBUtil {
         return null;
     }
 
+    /**
+     * @param username
+     * @return id：-1网络超时 0用户不存在
+     */
     public static UsersInfo getUserInfo(String username) {
         try {
             con = getCon();
+            if (con == null) return new UsersInfo(-1, "", "");
             ResultSet resultSet = con.createStatement().executeQuery("select * from user_Info where username = \"" + username + "\"");
             if (resultSet.next()) {
                 return new UsersInfo(resultSet.getInt("id"), resultSet.getString("username"), resultSet.getString("pwd"));
             } else {
                 //如果用户不存在 返回特殊值
-                return new UsersInfo(0,"","");
+                return new UsersInfo(0, "", "");
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void insertUserInfo(String username, String password) {
+        try {
+            con = getCon();
+            con.createStatement().execute("insert into user_Info values(null,\"" + username + "\",\"" + password + "\")");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
 

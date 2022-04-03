@@ -20,24 +20,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-/**
- * Created by renkai on 17/7/7.
- */
+import com.zqh.fyp.Util.Thread.RegisterCheckThread;
+import com.zqh.fyp.Util.Thread.RegisterThread;
 
 public class Register_Activity extends Activity implements View.OnClickListener {
 
 
     private EditText edit_register, edit_setpassword, edit_resetpassword;
     private Button btn_yes, btn_cancel;
-//    private DBHelper dbHelper;
+    public static int registerState;//-1网络超时 0验证中 1成功 2已注册
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity);
         init();
-//        dbHelper = new DBHelper(this, "Data.db", null, 1);
     }
 
 
@@ -115,20 +112,44 @@ public class Register_Activity extends Activity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
-                if (CheckIsDataAlreadyInDBorNot(edit_register.getText().toString())) {
-                    Toast.makeText(this, "该用户名已被注册，注册失败", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (edit_setpassword.getText().toString().trim().
-                            equals(edit_resetpassword.getText().toString())) {
-                        registerUserInfo(edit_register.getText().toString(),
-                                edit_setpassword.getText().toString());
-                        Toast.makeText(this, "注册成功！", Toast.LENGTH_SHORT).show();
-                        Intent register_intent = new Intent(Register_Activity.this,
-                                Login_Activity.class);
-                        startActivity(register_intent);
-                    } else {
-                        Toast.makeText(this, "两次输入密码不同，请重新输入！",
-                                Toast.LENGTH_SHORT).show();
+                new RegisterCheckThread(edit_register.getText().toString(),
+                        edit_setpassword.getText().toString()).start();
+                int timeout = 0;
+                while (registerState==0 && timeout < 1000) {
+                    timeout++;
+                    try {
+                        Thread.sleep(1);
+                    } catch (Exception e) {
+
+                    }
+                }
+                switch (registerState){
+                    case -1:{
+                        System.out.println("验证超时");
+                        Toast.makeText(this, "验证超时！", Toast.LENGTH_SHORT).show();
+                        registerState=0;
+                        return;
+                    }
+                    case 1:{
+                        if (edit_setpassword.getText().toString().trim().
+                                equals(edit_resetpassword.getText().toString())) {
+                            registerUserInfo(edit_register.getText().toString(),
+                                    edit_setpassword.getText().toString());
+                            Toast.makeText(this, "注册成功！", Toast.LENGTH_SHORT).show();
+                            Intent register_intent = new Intent(Register_Activity.this,
+                                    Login_Activity.class);
+                            startActivity(register_intent);
+                        } else {
+                            Toast.makeText(this, "两次输入密码不同，请重新输入！",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        registerState=0;
+                        break;
+                    }
+                    case 2:{
+                        Toast.makeText(this, "该用户名已被注册，注册失败", Toast.LENGTH_SHORT).show();
+                        registerState=0;
+                        break;
                     }
                 }
                 break;
@@ -159,27 +180,7 @@ public class Register_Activity extends Activity implements View.OnClickListener 
     /**
      * 利用sql创建嵌入式数据库进行注册访问
      */
-    private void registerUserInfo(String username, String userpassword) {
-//        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("username", username);
-        values.put("password", userpassword);
-//        db.insert("usertable", null, values);
-//        db.close();
-    }
-
-    /**
-     * 检验用户名是否已经注册
-     */
-    public boolean CheckIsDataAlreadyInDBorNot(String value) {
-//        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String Query = "Select * from usertable where username =?";
-//        Cursor cursor = db.rawQuery(Query, new String[]{value});
-//        if (cursor.getCount() > 0) {
-//            cursor.close();
-//            return true;
-//        }
-//        cursor.close();
-        return false;
+    private void registerUserInfo(String username, String password) {
+        new RegisterThread(username,password).start();
     }
 }

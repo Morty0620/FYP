@@ -19,7 +19,6 @@ public class ExampleUnitTest {
 
     @Test
     public void DB() {
-        UsersInfo info = DBUtil.getUserInfo(1);
-        System.out.println(info.username);
+        DBUtil.insertUserInfo("test2","123");
     }
 }

@@ -29,7 +29,7 @@ public class Login_Activity extends AppCompatActivity implements View.OnClickLis
     private ImageButton openpwd;
     private boolean flag = false;
     private String account, password;
-    public static int loginState;//0正在验证  1正确  2错误
+    public static int loginState;//-1网络超时 0正在验证  1正确  2错误
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,8 +144,9 @@ public class Login_Activity extends AppCompatActivity implements View.OnClickLis
             }
         }
         switch (loginState) {
-            case 0: {
+            case -1: {
                 System.out.println("验证超时");
+                loginState = 0;
                 break;
             }
             case 1: {

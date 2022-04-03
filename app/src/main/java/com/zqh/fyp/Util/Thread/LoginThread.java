@@ -16,8 +16,9 @@ public class LoginThread extends Thread {
     @Override
     public void run() {
         UsersInfo userInfo = DBUtil.getUserInfo(username);
-        if (userInfo == null) {
-            Login_Activity.loginState = 0;
+        if (userInfo.id==-1){
+            //网络超时
+            Login_Activity.loginState = -1;
             return;
         }
         if (userInfo.password.equals(this.password)) {
