@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class DBUtil {
-    private static Connection con=null;
+    private static Connection con = null;
 
     public static void init() {
         String URL = "jdbc:mysql://101.132.139.104:3306/androidsInfo?user=root&password=stzqh!520";
@@ -28,9 +28,10 @@ public class DBUtil {
 
     public static Connection getCon() {
         if (!NetUtil.isConnectInterNet()) {
-            con=null;
+            con = null;
             return con;
-        };
+        }
+
         if (con == null) init();
         return con;
     }
@@ -49,20 +50,20 @@ public class DBUtil {
         ArrayList<AccelerateInfo> list = new ArrayList<>();
         ResultSet result = getAllAccelerateInfo();
 
-        try {
-            while (result.next()) {
-                list.add(new AccelerateInfo(
-                        result.getInt("id"),
-                        Long.parseLong(result.getString("runtime")),
-                        Double.parseDouble(result.getString("x")),
-                        Double.parseDouble(result.getString("y")),
-                        Double.parseDouble(result.getString("z")),
-                        result.getInt("state")
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            while (result.next()) {
+//                list.add(new AccelerateInfo(
+//                        result.getInt("id"),
+//                        Long.parseLong(result.getString("runtime")),
+//                        Double.parseDouble(result.getString("xA")),
+//                        Double.parseDouble(result.getString("yA")),
+//                        Double.parseDouble(result.getString("z")),
+//                        result.getInt("state")
+//                ));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
 
         return list;
@@ -108,6 +109,15 @@ public class DBUtil {
         try {
             con = getCon();
             con.createStatement().execute("insert into user_Info values(null,\"" + username + "\",\"" + password + "\")");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void insertSensorInfo(int id, int uid, long currentTime, double xA, double yA, double zA, double xG, double yG, double zG, int state) {
+        try {
+            con = getCon();
+            con.createStatement().execute("insert into sensor_Info values(null,"+uid+",\""+currentTime+"\",\""+xA+"\",\""+yA+"\",\""+zA+"\",\""+xG+"\",\""+yG+"\",\""+zG+"\","+state+");");
         } catch (SQLException e) {
             e.printStackTrace();
         }

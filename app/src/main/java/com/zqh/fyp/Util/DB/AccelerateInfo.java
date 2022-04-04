@@ -1,63 +1,35 @@
 package com.zqh.fyp.Util.DB;
 
 public class AccelerateInfo {
-    int id;
-    long currentTime;
-    double x;
-    double y;
-    double z;
-    int state;
+    public int id;
+    public int uid;
+    public long currentTime;
+    public double xA;
+    public double yA;
+    public double zA;
+    public double xG;
+    public double yG;
+    public double zG;
+    public int state;
 
-    public AccelerateInfo(int id, long currentTime, double x, double y, double z, int state) {
+    public AccelerateInfo(int id, int uid, long currentTime, double xA, double yA, double zA, double xG, double yG, double zG, int state) {
         this.id = id;
+        this.uid = uid;
         this.currentTime = currentTime;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.xA = xA;
+        this.yA = yA;
+        this.zA = zA;
+        this.xG = xG;
+        this.yG = yG;
+        this.zG = zG;
         this.state = state;
     }
 
-    public int getId() {
-        return id;
+    public double getTotalA() {
+        return Math.pow(xA * xA + yA * yA + zA * zA, 1.0 / 2.0);
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public long getCurrentTime() {
-        return currentTime;
-    }
-
-    public void setCurrentTime(long currentTime) {
-        this.currentTime = currentTime;
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public double getZ() {
-        return z;
-    }
-
-    public void setZ(double z) {
-        this.z = z;
-    }
-
-    public double getTotalAcceleration(){
-        return Math.pow(x*x+y*y+z*z,1.0/2.0);
+    public double getTotalG() {
+        return Math.pow(xG * xG + yG * yG + zG * zG, 1.0 / 2.0);
     }
 }

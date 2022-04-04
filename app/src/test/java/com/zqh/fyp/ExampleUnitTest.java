@@ -22,7 +22,8 @@ public class ExampleUnitTest {
 
     @Test
     public void DB() {
-        DBUtil.insertUserInfo("test2", "123");
+//        DBUtil.insertUserInfo("test2", "123");
+        DBUtil.insertSensorInfo(1,1,1,1,1,1,1,1,1,1);
     }
 
     @Test
