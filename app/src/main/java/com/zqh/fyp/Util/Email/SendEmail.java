@@ -21,6 +21,10 @@ public class SendEmail {
     // 网易126邮箱的 SMTP 服务器地址为: smtp.126.com
     public static String myEmailSMTPHost = QQInfo.myEmailSMTPHost;
 
+    public static String[] info = {"发件人昵称", "收件人昵称", "主题", "正文"};
+    public static final String TITLE_UPDATE="Email Update";
+    public static final String TITLE_ALARM="ALARM";
+
 
     public static void send(String receiveMailAccount) throws Exception {
         // 1. 创建参数配置, 用于连接邮件服务器的参数配置
@@ -93,16 +97,16 @@ public class SendEmail {
         MimeMessage message = new MimeMessage(session);
 
         // 2. From: 发件人
-        message.setFrom(new InternetAddress(sendMail, "昵称", "UTF-8"));
+        message.setFrom(new InternetAddress(sendMail, info[0], "UTF-8"));
 
         // 3. To: 收件人（可以增加多个收件人、抄送、密送）
-        message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(receiveMail, "XX用户", "UTF-8"));
+        message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(receiveMail, info[1], "UTF-8"));
 
         // 4. Subject: 邮件主题
-        message.setSubject("主题", "UTF-8");
+        message.setSubject(info[2], "UTF-8");
 
         // 5. Content: 邮件正文（可以使用html标签）
-        message.setContent("邮件正文", "text/html;charset=UTF-8");
+        message.setContent(info[3], "text/html;charset=UTF-8");
         // 6. 设置发件时间
         message.setSentDate(new Date());
 
@@ -110,5 +114,10 @@ public class SendEmail {
         message.saveChanges();
 
         return message;
+    }
+
+    public static void setInfo(String title, String content) {
+        info[2] = title;
+        info[3] = content;
     }
 }

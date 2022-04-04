@@ -12,16 +12,18 @@ import android.widget.Button;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import android.widget.TextView;
+import com.zqh.fyp.Util.Email.SendEmail;
 import com.zqh.fyp.Util.Thread.ContactChangeThread;
+import com.zqh.fyp.Util.Thread.SendEmailThread;
 import com.zqh.fyp.Util.Thread.SensorDataThread;
 
 import java.math.BigDecimal;
 
 public class UsersInfo_activity extends Activity implements View.OnClickListener {
 
-    private TextView text_name, text_condition,text_contact;
+    private TextView text_name, text_condition, text_contact;
     private String name;
-    private Button btn_logout,btn_change;
+    private Button btn_logout, btn_change;
 
     //传感器
     private SensorManager sensorManager;
@@ -108,14 +110,18 @@ public class UsersInfo_activity extends Activity implements View.OnClickListener
         switch (v.getId()) {
             //登出按钮点击
             case R.id.btn_logout: {
-                isPause=true;
+                isPause = true;
                 MainActivity.user = null;
                 Intent i = new Intent(UsersInfo_activity.this, Login_Activity.class);
                 startActivity(i);
+                break;
             }
-            case R.id.btn_change:{
-                new ContactChangeThread(MainActivity.user.id,text_contact.getText().toString()).start();
+            case R.id.btn_change: {
+                new ContactChangeThread(MainActivity.user.id, text_contact.getText().toString()).start();
                 Toast.makeText(this, "修改成功！", Toast.LENGTH_SHORT).show();
+                MainActivity.user.contact = text_contact.getText().toString();
+//                new SendEmailThread(text_contact.getText().toString(), SendEmail.TITLE_UPDATE, "用户:" + MainActivity.user.username + "将你设置为了紧急联系人").start();
+                break;
             }
         }
     }
@@ -137,7 +143,7 @@ public class UsersInfo_activity extends Activity implements View.OnClickListener
         isPause = true;
     }
 
-    public static void showInfo(){
-        System.out.println(xAccelerate+"-"+yAccelerate+"-"+zAccelerate+"-"+xGyro+"-"+yGyro+"-"+zGyro+"-");
+    public static void showInfo() {
+        System.out.println(xAccelerate + "-" + yAccelerate + "-" + zAccelerate + "-" + xGyro + "-" + yGyro + "-" + zGyro + "-");
     }
 }

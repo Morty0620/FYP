@@ -1,5 +1,6 @@
 package com.zqh.fyp.Util.Thread;
 
+import com.zqh.fyp.MainActivity;
 import com.zqh.fyp.Util.DB.DBUtil;
 
 public class ContactChangeThread extends Thread{
