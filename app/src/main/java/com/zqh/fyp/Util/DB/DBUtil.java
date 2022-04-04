@@ -75,7 +75,7 @@ public class DBUtil {
             if (con == null) return null;
             ResultSet resultSet = con.createStatement().executeQuery("select * from user_Info where id = " + id);
             if (resultSet.next()) {
-                return new UsersInfo(id, resultSet.getString("username"), resultSet.getString("pwd"));
+                return new UsersInfo(id, resultSet.getString("username"), resultSet.getString("pwd"),resultSet.getString("contact"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,13 +90,13 @@ public class DBUtil {
     public static UsersInfo getUserInfo(String username) {
         try {
             con = getCon();
-            if (con == null) return new UsersInfo(-1, "", "");
+            if (con == null) return new UsersInfo(-1, "", "","");
             ResultSet resultSet = con.createStatement().executeQuery("select * from user_Info where username = \"" + username + "\"");
             if (resultSet.next()) {
-                return new UsersInfo(resultSet.getInt("id"), resultSet.getString("username"), resultSet.getString("pwd"));
+                return new UsersInfo(resultSet.getInt("id"), resultSet.getString("username"), resultSet.getString("pwd"),resultSet.getString("contact"));
             } else {
                 //如果用户不存在 返回特殊值
-                return new UsersInfo(0, "", "");
+                return new UsersInfo(0, "", "","");
             }
 
         } catch (SQLException e) {
@@ -105,10 +105,10 @@ public class DBUtil {
         return null;
     }
 
-    public static void insertUserInfo(String username, String password) {
+    public static void insertUserInfo(String username, String password,String contact) {
         try {
             con = getCon();
-            con.createStatement().execute("insert into user_Info values(null,\"" + username + "\",\"" + password + "\")");
+            con.createStatement().execute("insert into user_Info values(null,\"" + username + "\",\"" + password + "\",\""+contact+"\")");
         } catch (SQLException e) {
             e.printStackTrace();
         }

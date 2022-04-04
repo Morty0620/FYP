@@ -9,10 +9,12 @@ public class UsersInfo {
 
     public String username;
     public String password;
+    public String contact;
 
-    public UsersInfo(int id, String username, String password) {
+    public UsersInfo(int id, String username, String password, String contact) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.contact = contact;
     }
 }

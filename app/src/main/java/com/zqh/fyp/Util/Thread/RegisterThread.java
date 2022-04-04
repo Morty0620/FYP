@@ -14,6 +14,6 @@ public class RegisterThread extends Thread {
 
     @Override
     public void run() {
-        DBUtil.insertUserInfo(username, password);
+        DBUtil.insertUserInfo(username, password,"");
     }
 }
