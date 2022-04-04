@@ -12,15 +12,16 @@ import android.widget.Button;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import android.widget.TextView;
+import com.zqh.fyp.Util.Thread.ContactChangeThread;
 import com.zqh.fyp.Util.Thread.SensorDataThread;
 
 import java.math.BigDecimal;
 
 public class UsersInfo_activity extends Activity implements View.OnClickListener {
 
-    private TextView text_name, text_condition;
+    private TextView text_name, text_condition,text_contact;
     private String name;
-    private Button btn_logout;
+    private Button btn_logout,btn_change;
 
     //传感器
     private SensorManager sensorManager;
@@ -54,10 +55,14 @@ public class UsersInfo_activity extends Activity implements View.OnClickListener
         text_name.setText(name);
         text_condition = (TextView) findViewById(R.id.text_condition);
         text_condition.setText("在线");
+        text_contact = (TextView) findViewById(R.id.text_contact);
+        text_contact.setText(MainActivity.user.contact);
 
         //注册按钮
         btn_logout = (Button) findViewById(R.id.btn_logout);
         btn_logout.setOnClickListener(this);
+        btn_change = (Button) findViewById(R.id.btn_change);
+        btn_change.setOnClickListener(this);
 
         //注册加速度传感器
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -107,6 +112,10 @@ public class UsersInfo_activity extends Activity implements View.OnClickListener
                 MainActivity.user = null;
                 Intent i = new Intent(UsersInfo_activity.this, Login_Activity.class);
                 startActivity(i);
+            }
+            case R.id.btn_change:{
+                new ContactChangeThread(MainActivity.user.id,text_contact.getText().toString()).start();
+                Toast.makeText(this, "修改成功！", Toast.LENGTH_SHORT).show();
             }
         }
     }

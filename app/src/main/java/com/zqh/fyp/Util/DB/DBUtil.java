@@ -122,6 +122,16 @@ public class DBUtil {
             e.printStackTrace();
         }
     }
+
+    public static void updateContact(int id,String contact){
+        //update user_Info set contact="1" where id=2
+        try {
+            con = getCon();
+            con.createStatement().execute("update user_Info set contact=\""+contact+"\" where id="+id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
