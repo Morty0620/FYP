@@ -2,3 +2,5 @@ http://www.eepw.com.cn/article/201610/307003.htm
 传感器利用：加速度传感器和陀螺仪
 摔倒和日常使用时，因为手机机位的不确定性，不便于使用xyz三轴运算，所以使用膜长运算
 根据分析：跌倒具有大加速度和角速度峰值特征
+
+https://blog.csdn.net/weixin_43580339/article/details/117256873?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164908918616780264087393%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=164908918616780264087393&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-1-117256873.142^v5^pc_search_result_control_group,157^v4^new_style&utm_term=深度学习分类算法&spm=1018.2226.3001.4187

@@ -6,6 +6,12 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
     defaultConfig {
         applicationId "com.zqh.fyp"
         minSdkVersion 29
@@ -29,12 +35,11 @@ android {
 }
 
 dependencies {
-    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-    implementation 'mysql:mysql-connector-java:5.1.37'
+    //将libs中jar引入，注意不能重复冲突
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
     // https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2
     implementation 'org.apache.commons:commons-dbcp2:2.9.0'
-    // https://mvnrepository.com/artifact/com.sun.mail/javax.mail
-    implementation 'com.sun.mail:javax.mail:1.6.2'
 
 
 

@@ -20,11 +20,9 @@ public class SendEmailThread extends Thread {
         try {
             SendEmail.setInfo(title, content);
             SendEmail.send(receiveMailAccount);
-            Thread.sleep(5000);
+//            Thread.sleep(5000);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 }

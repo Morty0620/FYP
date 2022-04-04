@@ -120,7 +120,7 @@ public class UsersInfo_activity extends Activity implements View.OnClickListener
                 new ContactChangeThread(MainActivity.user.id, text_contact.getText().toString()).start();
                 Toast.makeText(this, "修改成功！", Toast.LENGTH_SHORT).show();
                 MainActivity.user.contact = text_contact.getText().toString();
-//                new SendEmailThread(text_contact.getText().toString(), SendEmail.TITLE_UPDATE, "用户:" + MainActivity.user.username + "将你设置为了紧急联系人").start();
+                new SendEmailThread(text_contact.getText().toString(), SendEmail.TITLE_UPDATE, "用户:" + MainActivity.user.username + "将你设置为了紧急联系人").start();
                 break;
             }
         }
