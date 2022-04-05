@@ -8,5 +8,15 @@ public class SensorData {
     public static double xGyro;
     public static double yGyro;
     public static double zGyro;
-    public static int state;
+    public static int state; //0不确定 1walk 2fall 3stable
+
+    public static void reSet() {
+        xAccelerate = 0;
+        yAccelerate = 0;
+        zAccelerate = 0;
+        xGyro = 0;
+        yGyro = 0;
+        zGyro = 0;
+        state = 0;
+    }
 }

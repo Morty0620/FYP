@@ -16,6 +16,7 @@ public class SensorDataThread extends Thread {
             e.printStackTrace();
         }
         while (!UsersInfo_Activity.isPause) {
+            System.out.println("running");
             DBUtil.insertSensorInfo(
                     0,
                     MainActivity.user.id,
