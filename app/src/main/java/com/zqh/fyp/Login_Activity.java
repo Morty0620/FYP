@@ -2,8 +2,6 @@ package com.zqh.fyp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
@@ -17,8 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.zqh.fyp.Util.DB.DBUtil;
-import com.zqh.fyp.Util.DB.UsersInfo;
 import com.zqh.fyp.Util.Thread.LoginThread;
 
 public class Login_Activity extends AppCompatActivity implements View.OnClickListener {
@@ -121,9 +117,16 @@ public class Login_Activity extends AppCompatActivity implements View.OnClickLis
     protected void readUserInfo() {
         if (login(edit_account.getText().toString(), edit_password.getText().toString())) {
             Toast.makeText(this, "登陆成功！", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(Login_Activity.this, UsersInfo_activity.class);
-            intent.putExtra("Username",edit_account.getText().toString());
-            startActivity(intent);
+            if (MainActivity.isDebug){
+                Intent intent = new Intent(Login_Activity.this, Debug_Activity.class);
+                intent.putExtra("Username",edit_account.getText().toString());
+                startActivity(intent);
+            }else {
+                Intent intent = new Intent(Login_Activity.this, UsersInfo_Activity.class);
+                intent.putExtra("Username",edit_account.getText().toString());
+                startActivity(intent);
+            }
+
         } else {
             Toast.makeText(this, "账户或密码错误，请重新输入！！", Toast.LENGTH_SHORT).show();
         }

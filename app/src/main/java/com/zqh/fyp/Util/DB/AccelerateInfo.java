@@ -10,7 +10,7 @@ public class AccelerateInfo {
     public double xG;
     public double yG;
     public double zG;
-    public int state;
+    public int state;  //0未确认 1步行 2摔倒 3静止
 
     public AccelerateInfo(int id, int uid, long currentTime, double xA, double yA, double zA, double xG, double yG, double zG, int state) {
         this.id = id;

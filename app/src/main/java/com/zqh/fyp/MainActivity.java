@@ -14,6 +14,7 @@ import com.zqh.fyp.Util.Net.NetUtil;
 public class MainActivity extends AppCompatActivity {
 
     public static UsersInfo user;
+    public static boolean isDebug = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

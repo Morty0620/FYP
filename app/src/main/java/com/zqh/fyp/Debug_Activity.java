@@ -9,21 +9,15 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 import androidx.annotation.Nullable;
 import android.widget.TextView;
-import com.zqh.fyp.Util.Email.SendEmail;
-import com.zqh.fyp.Util.Thread.ContactChangeThread;
-import com.zqh.fyp.Util.Thread.SendEmailThread;
 import com.zqh.fyp.Util.Thread.SensorDataThread;
 
-import java.math.BigDecimal;
+public class Debug_Activity extends Activity implements View.OnClickListener {
 
-public class UsersInfo_activity extends Activity implements View.OnClickListener {
-
-    private TextView text_name, text_condition, text_contact;
+    private TextView text_name, text_condition;
     private String name;
-    private Button btn_logout, btn_change;
+    private Button btn_logout, btn_walk;
 
     //传感器
     private SensorManager sensorManager;
@@ -32,21 +26,13 @@ public class UsersInfo_activity extends Activity implements View.OnClickListener
     private SensorEventListener accelerateSensorListener;
     private SensorEventListener gyroSensorListener;
 
-    //传感器数据
-    public static double xAccelerate;
-    public static double yAccelerate;
-    public static double zAccelerate;
-    public static double xGyro;
-    public static double yGyro;
-    public static double zGyro;
-
     //进程状态
     public static boolean isPause = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.userinfo_activity);
+        setContentView(R.layout.debug_activity);
         init();
     }
 
@@ -57,14 +43,12 @@ public class UsersInfo_activity extends Activity implements View.OnClickListener
         text_name.setText(name);
         text_condition = (TextView) findViewById(R.id.text_condition);
         text_condition.setText("在线");
-        text_contact = (TextView) findViewById(R.id.text_contact);
-        text_contact.setText(MainActivity.user.contact);
 
         //注册按钮
         btn_logout = (Button) findViewById(R.id.btn_logout);
         btn_logout.setOnClickListener(this);
-        btn_change = (Button) findViewById(R.id.btn_change);
-        btn_change.setOnClickListener(this);
+        btn_walk = (Button) findViewById(R.id.btn_walk);
+        btn_walk.setOnClickListener(this);
 
         //注册加速度传感器
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -76,9 +60,9 @@ public class UsersInfo_activity extends Activity implements View.OnClickListener
             @Override
             public void onSensorChanged(SensorEvent event) {
                 float[] values = event.values;
-                xAccelerate = values[0];
-                yAccelerate = values[1];
-                zAccelerate = values[2];
+                SensorData.xAccelerate = values[0];
+                SensorData.yAccelerate = values[1];
+                SensorData.zAccelerate = values[2];
             }
 
             @Override
@@ -90,9 +74,9 @@ public class UsersInfo_activity extends Activity implements View.OnClickListener
             @Override
             public void onSensorChanged(SensorEvent event) {
                 float[] values = event.values;
-                xGyro = values[0];
-                yGyro = values[1];
-                zGyro = values[2];
+                SensorData.xGyro = values[0];
+                SensorData.yGyro = values[1];
+                SensorData.zGyro = values[2];
             }
 
             @Override
@@ -112,15 +96,12 @@ public class UsersInfo_activity extends Activity implements View.OnClickListener
             case R.id.btn_logout: {
                 isPause = true;
                 MainActivity.user = null;
-                Intent i = new Intent(UsersInfo_activity.this, Login_Activity.class);
+                Intent i = new Intent(Debug_Activity.this, Login_Activity.class);
                 startActivity(i);
                 break;
             }
-            case R.id.btn_change: {
-                new ContactChangeThread(MainActivity.user.id, text_contact.getText().toString()).start();
-                Toast.makeText(this, "修改成功！", Toast.LENGTH_SHORT).show();
-                MainActivity.user.contact = text_contact.getText().toString();
-                new SendEmailThread(text_contact.getText().toString(), SendEmail.TITLE_UPDATE, "用户:" + MainActivity.user.username + "将你设置为了紧急联系人").start();
+
+            case R.id.btn_walk: {
                 break;
             }
         }
@@ -141,9 +122,5 @@ public class UsersInfo_activity extends Activity implements View.OnClickListener
         sensorManager.unregisterListener(accelerateSensorListener);
         sensorManager.unregisterListener(gyroSensorListener);
         isPause = true;
-    }
-
-    public static void showInfo() {
-        System.out.println(xAccelerate + "-" + yAccelerate + "-" + zAccelerate + "-" + xGyro + "-" + yGyro + "-" + zGyro + "-");
     }
 }
