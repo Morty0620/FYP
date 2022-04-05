@@ -30,9 +30,9 @@ public class ExampleUnitTest {
 
     @Test
     public void DB() {
-//        DBUtil.insertUserInfo("test2", "123");
+        DBUtil.insertUserInfo("test2", "123","");
 //        DBUtil.insertSensorInfo(1,1,1,1,1,1,1,1,1,1);
-        DBUtil.updateContact(2, "c@qq.com");
+//        DBUtil.updateContact(2, "c@qq.com");
     }
 
     @Test

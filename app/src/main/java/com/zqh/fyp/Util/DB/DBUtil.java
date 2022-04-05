@@ -13,7 +13,7 @@ public class DBUtil {
     private static Connection con = null;
 
     public static void init() {
-        String URL = "jdbc:mysql://101.132.139.104:3306/androidsInfo?user=root&password=stzqh!520";
+        String URL = "jdbc:mysql://101.132.139.104:3306/androidsinfo?user=fyp&password=tRx4p8WfwXWTi45T";
         // 1.加载驱动程序
         try {
             Class.forName("com.mysql.jdbc.Driver");
