@@ -28,7 +28,7 @@ public class Debug_Activity extends Activity implements View.OnClickListener {
     private SensorEventListener gyroSensorListener;
 
     //进程状态
-    public static boolean isPause = false;
+    public static boolean isPause = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,12 +109,13 @@ public class Debug_Activity extends Activity implements View.OnClickListener {
             }
             case R.id.btn_stop: {
                 SensorData.state = 0;
-                ((TextView) findViewById(R.id.btn_stop)).setTextColor(0xffff00ff);
                 if (isPause) {
                     ((TextView) findViewById(R.id.btn_stop)).setText("Stop");
+                    ((TextView) findViewById(R.id.btn_stop)).setTextColor(Color.rgb(0,0,0));
                     onResume();
                 } else {
                     ((TextView) findViewById(R.id.btn_stop)).setText("Resume");
+                    ((TextView) findViewById(R.id.btn_stop)).setTextColor(0xffff00ff);
                     onPause();
                 }
                 ((TextView) findViewById(R.id.btn_walk)).setTextColor(Color.rgb(0,0,0));
