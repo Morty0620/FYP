@@ -27,7 +27,9 @@ public class DebugSensorDataThread extends Thread {
                     SensorData.xGyro,
                     SensorData.yGyro,
                     SensorData.zGyro,
-                    SensorData.state);
+                    SensorData.walkState,
+                    SensorData.fallState,
+                    SensorData.stableState);
             try {
                 this.sleep(20);
             } catch (InterruptedException e) {

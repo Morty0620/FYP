@@ -46,8 +46,8 @@ public class DBUtil {
         return null;
     }
 
-    public static ArrayList<AccelerateInfo> getInfoArray() {
-        ArrayList<AccelerateInfo> list = new ArrayList<>();
+    public static ArrayList<SensorInfo> getInfoArray() {
+        ArrayList<SensorInfo> list = new ArrayList<>();
         ResultSet result = getAllAccelerateInfo();
 
 //        try {
@@ -114,10 +114,10 @@ public class DBUtil {
         }
     }
 
-    public static void insertSensorInfo(int id, int uid, long currentTime, double xA, double yA, double zA, double xG, double yG, double zG, int state) {
+    public static void insertSensorInfo(int id, int uid, long currentTime, double xA, double yA, double zA, double xG, double yG, double zG, int walkState,int fallState, int stableState) {
         try {
             con = getCon();
-            con.createStatement().execute("insert into sensor_Info values(null,"+uid+",\""+currentTime+"\",\""+xA+"\",\""+yA+"\",\""+zA+"\",\""+xG+"\",\""+yG+"\",\""+zG+"\","+state+");");
+            con.createStatement().execute("insert into sensor_Info values(null,"+uid+",\""+currentTime+"\",\""+xA+"\",\""+yA+"\",\""+zA+"\",\""+xG+"\",\""+yG+"\",\""+zG+"\","+walkState+","+fallState+","+stableState+");");
         } catch (SQLException e) {
             e.printStackTrace();
         }

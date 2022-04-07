@@ -8,7 +8,9 @@ public class SensorData {
     public static double xGyro;
     public static double yGyro;
     public static double zGyro;
-    public static int state; //0不确定 1walk 2fall 3stable
+    public static int walkState;
+    public static int fallState;
+    public static int stableState;
 
     public static void reSet() {
         xAccelerate = 0;
@@ -17,6 +19,16 @@ public class SensorData {
         xGyro = 0;
         yGyro = 0;
         zGyro = 0;
-        state = 0;
+        walkState = 0;
+        fallState = 0;
+        stableState = 0;
     }
+
+    public static void reSetState() {
+        walkState = 0;
+        fallState = 0;
+        stableState = 0;
+    }
+
+    ;
 }

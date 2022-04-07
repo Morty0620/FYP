@@ -30,6 +30,9 @@ public class Debug_Activity extends Activity implements View.OnClickListener {
     //进程状态
     public static boolean isPause = true;
 
+    //必要初始化属性
+    public static boolean isInit = true;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +47,10 @@ public class Debug_Activity extends Activity implements View.OnClickListener {
         text_name.setText(name);
         text_condition = (TextView) findViewById(R.id.text_condition);
         text_condition.setText("在线");
+        if (isPause) {
+            ((TextView) findViewById(R.id.btn_stop)).setText("Resume");
+            ((TextView) findViewById(R.id.btn_stop)).setTextColor(0xffff00ff);
+        }
 
         //注册按钮
         btn_logout = (Button) findViewById(R.id.btn_logout);
@@ -91,9 +98,6 @@ public class Debug_Activity extends Activity implements View.OnClickListener {
 
             }
         };
-
-        //启动线程
-        new DebugSensorDataThread().start();
     }
 
     @Override
@@ -108,43 +112,46 @@ public class Debug_Activity extends Activity implements View.OnClickListener {
                 break;
             }
             case R.id.btn_stop: {
-                SensorData.state = 0;
+                SensorData.reSetState();
                 if (isPause) {
                     ((TextView) findViewById(R.id.btn_stop)).setText("Stop");
-                    ((TextView) findViewById(R.id.btn_stop)).setTextColor(Color.rgb(0,0,0));
+                    ((TextView) findViewById(R.id.btn_stop)).setTextColor(Color.rgb(0, 0, 0));
                     onResume();
                 } else {
                     ((TextView) findViewById(R.id.btn_stop)).setText("Resume");
                     ((TextView) findViewById(R.id.btn_stop)).setTextColor(0xffff00ff);
                     onPause();
                 }
-                ((TextView) findViewById(R.id.btn_walk)).setTextColor(Color.rgb(0,0,0));
-                ((TextView) findViewById(R.id.btn_fall)).setTextColor(Color.rgb(0,0,0));
-                ((TextView) findViewById(R.id.btn_stable)).setTextColor(Color.rgb(0,0,0));
+                ((TextView) findViewById(R.id.btn_walk)).setTextColor(Color.rgb(0, 0, 0));
+                ((TextView) findViewById(R.id.btn_fall)).setTextColor(Color.rgb(0, 0, 0));
+                ((TextView) findViewById(R.id.btn_stable)).setTextColor(Color.rgb(0, 0, 0));
                 break;
             }
             case R.id.btn_walk: {
                 ((TextView) findViewById(R.id.btn_walk)).setTextColor(0xffff00ff);
-                ((TextView) findViewById(R.id.btn_fall)).setTextColor(Color.rgb(0,0,0));
-                ((TextView) findViewById(R.id.btn_stable)).setTextColor(Color.rgb(0,0,0));
-                ((TextView) findViewById(R.id.btn_stop)).setTextColor(Color.rgb(0,0,0));
-                SensorData.state = 1;
+                ((TextView) findViewById(R.id.btn_fall)).setTextColor(Color.rgb(0, 0, 0));
+                ((TextView) findViewById(R.id.btn_stable)).setTextColor(Color.rgb(0, 0, 0));
+                ((TextView) findViewById(R.id.btn_stop)).setTextColor(Color.rgb(0, 0, 0));
+                SensorData.reSetState();
+                SensorData.walkState = 1;
                 break;
             }
             case R.id.btn_fall: {
-                ((TextView) findViewById(R.id.btn_walk)).setTextColor(Color.rgb(0,0,0));
+                ((TextView) findViewById(R.id.btn_walk)).setTextColor(Color.rgb(0, 0, 0));
                 ((TextView) findViewById(R.id.btn_fall)).setTextColor(0xffff00ff);
-                ((TextView) findViewById(R.id.btn_stable)).setTextColor(Color.rgb(0,0,0));
-                ((TextView) findViewById(R.id.btn_stop)).setTextColor(Color.rgb(0,0,0));
-                SensorData.state = 2;
+                ((TextView) findViewById(R.id.btn_stable)).setTextColor(Color.rgb(0, 0, 0));
+                ((TextView) findViewById(R.id.btn_stop)).setTextColor(Color.rgb(0, 0, 0));
+                SensorData.reSetState();
+                SensorData.fallState = 1;
                 break;
             }
             case R.id.btn_stable: {
-                ((TextView) findViewById(R.id.btn_walk)).setTextColor(Color.rgb(0,0,0));
-                ((TextView) findViewById(R.id.btn_fall)).setTextColor(Color.rgb(0,0,0));
+                ((TextView) findViewById(R.id.btn_walk)).setTextColor(Color.rgb(0, 0, 0));
+                ((TextView) findViewById(R.id.btn_fall)).setTextColor(Color.rgb(0, 0, 0));
                 ((TextView) findViewById(R.id.btn_stable)).setTextColor(0xffff00ff);
-                ((TextView) findViewById(R.id.btn_stop)).setTextColor(Color.rgb(0,0,0));
-                SensorData.state = 3;
+                ((TextView) findViewById(R.id.btn_stop)).setTextColor(Color.rgb(0, 0, 0));
+                SensorData.reSetState();
+                SensorData.stableState = 1;
                 break;
             }
         }
@@ -155,6 +162,11 @@ public class Debug_Activity extends Activity implements View.OnClickListener {
         super.onResume();
         sensorManager.registerListener(accelerateSensorListener, accelerateSensor, SensorManager.SENSOR_DELAY_FASTEST);
         sensorManager.registerListener(gyroSensorListener, gyroSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        if (isInit && isPause) {
+            isInit = false;
+            return;
+        }
+        isInit = false;
         isPause = false;
         new DebugSensorDataThread().start();
     }
